@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "FPDemo4iOS-Swift.h"
+#import "WhyCurry.h"
+
 
 @interface AppDelegate ()
 
@@ -17,7 +20,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
+    sampleCurry();
+    [SampleSwift run];
     return YES;
 }
 

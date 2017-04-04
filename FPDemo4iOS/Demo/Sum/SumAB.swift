@@ -8,13 +8,10 @@
 
 import Foundation
 
-//class Sum: NSObject {
-//
-//}
 
 typealias SumFromAToB = (Int32, Int32)->Int32
 
-private func createSumFunOfFromAToB(_ clojure:@escaping (Int32) -> Int32) -> SumFromAToB {
+func createSumFunOfFromAToB(_ clojure:@escaping (Int32) -> Int32) -> SumFromAToB {
     func sum(_ a:Int32,_ b:Int32)->Int32{
         if (a > b){
             return 0;
@@ -24,7 +21,7 @@ private func createSumFunOfFromAToB(_ clojure:@escaping (Int32) -> Int32) -> Sum
     return sum;
 }
 
-public func sampleSumSwift(){
+func sampleSumSwift(){
     let sumInt = createSumFunOfFromAToB({$0})
     let sumSqaure = createSumFunOfFromAToB({$0 * $0})
     let sumCube = createSumFunOfFromAToB({$0 * $0 * $0})
@@ -32,6 +29,13 @@ public func sampleSumSwift(){
     let b:Int32 = 20
     print("\(sumInt(a, b)), \(sumSqaure(a, b)),\(sumCube(a, b))")
 }
+
+@objc public  class SampleSwift:NSObject {
+    public static func run(){
+        sampleSumSwift();
+    }
+}
+
 
 
 

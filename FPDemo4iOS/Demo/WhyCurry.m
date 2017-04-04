@@ -30,25 +30,27 @@ StringBlock Shout = ^(NSString* str){
     return Excailm(ToUpperCase(str));
 };
 
-StringBlock StringFunCompose(StringBlock fun, ...){
-    NSMutableArray *argsArray = [[NSMutableArray alloc] initWithObjects:fun, nil];
-    va_list params;
-    va_start(params, fun);
-    NSString *arg;
-    while( (arg = va_arg(params,NSString *)) )
-    {
-        if ( arg )
-        {
-            [argsArray addObject:arg];
-        }
-    }
-    va_end(params);         //置空
+//StringBlock StringFunCompose(StringBlock fun, ...)
+StringBlock StringFunCompose(NSArray*blocks)
+{
+//    NSMutableArray *argsArray = [[NSMutableArray alloc] initWithObjects:fun, nil];
+//    va_list params;
+//    va_start(params, fun);
+//    StringBlock arg;
+//    while( (arg = va_arg(params, StringBlock)))
+//    {
+//        if ( arg )
+//        {
+//            [argsArray addObject:arg];
+//        }
+//    }
+//    va_end(params);
     return ^(NSString* str){
-        NSEnumerator *enumerator = [argsArray reverseObjectEnumerator];
+        NSEnumerator *enumerator = [blocks reverseObjectEnumerator];
         StringBlock block;
         while (block = [enumerator nextObject]) {
             str = block(str);
-            NSLog(@"%@", str);
+//            NSLog(@"%@", str);
         }
         return str;
     };
@@ -75,7 +77,7 @@ StringBlock StringFunCompose(StringBlock fun, ...){
 void sampleCurry(){
     NSLog(@"[sampleCurry]");
     NSLog(@"%@", Shout(@"Let's get started with FP"));
-    NSLog(@"%@", StringFunCompose(Excailm, ToUpperCase)(@"Let's get started with FP"));
+    NSLog(@"%@", StringFunCompose(@[Excailm, ToUpperCase])(@"Let's get started with FP"));
 }
 
 

@@ -8,12 +8,17 @@
 
 #import "Sum.h"
 
-typedef NSInteger(^FUN)(NSInteger);
+typedef double SumVauleType;
 
+typedef NSInteger(^BlockFun)(NSInteger);
 
-FUN retSelf = ^(NSInteger a){ return a;};
-FUN square = ^(NSInteger a){ return a*a;};
-FUN cube = ^(NSInteger a){ return a*a*a;};
+double(^SquareFun)(double) = ^(double a){
+    return pow(a, 2);
+};
+
+BlockFun retSelf = ^(NSInteger a){ return a;};
+BlockFun square = ^(NSInteger a){ return a*a;};
+BlockFun cube = ^(NSInteger a){ return a*a*a;};
 
 NSInteger sumInt(NSInteger a, NSInteger b){
     if (a > b) return 0;
@@ -36,7 +41,7 @@ NSInteger sumCube(NSInteger a, NSInteger b){
 
 
 
-NSInteger sumWithFun(NSInteger(^fun)(NSInteger) , NSInteger a, NSInteger b){
+NSInteger sumWithFun(BlockFun fun , NSInteger a, NSInteger b){
     if (a > b) return 0;
     return (fun(a) + sumWithFun(fun, a + 1, b));
 }
@@ -56,13 +61,14 @@ SumFromAToB sumFun(NSInteger(^fun)(NSInteger)){
 
 
 void sampleSum(){
-    NSInteger a = 10, b = 20;
-    NSLog(@"%ld, %ld, %ld",
-          sumWithFun(retSelf, a, b),
-          sumWithFun(square, a, b),
-          sumWithFun(cube, a, b)
-          );
+NSInteger a = 10, b = 20;
+NSLog(@"%ld, %ld, %ld",
+      sumWithFun(retSelf, a, b),
+      sumWithFun(square, a, b),
+      sumWithFun(cube, a, b)
+      );
     
+    /////  通过传入函数，产生出新的函数
     SumFromAToB sumInt = sumFun(retSelf);
     SumFromAToB sumSqaure = sumFun(square);
     SumFromAToB sumCube = sumFun(cube);
